@@ -5,7 +5,7 @@ GIT="/usr/bin/git"
 DWM_DIR="$HOME/.dwm-setup"
 cd $DWM_DIR || exit
 if [[ -n "$($GIT status -b --porcelain)" ]]; then
-  git add .
+  git add . 
   git commit -m "Automated update: $(date --rfc-3339 s)"
   git push
 fi
