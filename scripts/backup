@@ -1,3 +1,31 @@
+# #!/bin/bash
+
+# SSH_AGENT="/usr/bin/ssh-agent"
+# SSH_ADD="/usr/bin/ssh-add"
+# GIT="/usr/bin/git"
+
+# # Start SSH agent and add SSH key
+# eval "$($SSH_AGENT -s)"
+# $SSH_ADD ~/.ssh/id_ed25519
+
+# # backup dwm setup
+# DWM_DIR="$HOME/.dwm-setup"
+# cd $DWM_DIR || exit
+# if [[ -n "$($GIT status -b --porcelain)" ]]; then
+#   git add .
+#   git commit -m "Automated update: $(date --rfc-3339 s)"
+#   git push -u origin main
+# fi
+
+# # backup dotfiles
+# DOTFILES_DIR="$HOME/.dotfiles"
+# cd $DOTFILES_DIR || exit
+# if [[ -n "$($GIT status -b --porcelain)" ]]; then
+#   git add .
+#   git commit -m "Automated update: $(date --rfc-3339 s)"
+#   git push -u origin main
+# fi
+
 #!/bin/bash
 
 SSH_AGENT="/usr/bin/ssh-agent"
@@ -11,17 +39,23 @@ $SSH_ADD ~/.ssh/id_ed25519
 # backup dwm setup
 DWM_DIR="$HOME/.dwm-setup"
 cd $DWM_DIR || exit
+echo "DWM_DIR: $(pwd)" >> ~/backup_log.txt
 if [[ -n "$($GIT status -b --porcelain)" ]]; then
-  git add .
-  git commit -m "Automated update: $(date --rfc-3339 s)"
-  git push -u origin main
+  echo "Changes detected in DWM setup" >> ~/backup_log.txt
+  git add . >> ~/backup_log.txt 2>&1
+  git commit -m "Automated update: $(date --rfc-3339 s)" >> ~/backup_log.txt 2>&1
+  git push -u origin main >> ~/backup_log.txt 2>&1
 fi
 
 # backup dotfiles
 DOTFILES_DIR="$HOME/.dotfiles"
 cd $DOTFILES_DIR || exit
+echo "DOTFILES_DIR: $(pwd)" >> ~/backup_log.txt
 if [[ -n "$($GIT status -b --porcelain)" ]]; then
-  git add .
-  git commit -m "Automated update: $(date --rfc-3339 s)"
-  git push -u origin main
+  echo "Changes detected in dotfiles" >> ~/backup_log.txt
+  git add . >> ~/backup_log.txt 2>&1
+  git commit -m "Automated update: $(date --rfc-3339 s)" >> ~/backup_log.txt 2>&1
+  git push -u origin main >> ~/backup_log.txt 2>&1
 fi
+
+echo "Backup script finished." >> ~/backup_log.txt
