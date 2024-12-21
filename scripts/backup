@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Start SSH agent and add SSH key
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
 # backup dwm setup
 DWM_DIR="$HOME/.dwm-setup"
 cd $DWM_DIR || exit
