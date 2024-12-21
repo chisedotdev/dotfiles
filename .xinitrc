@@ -1,4 +1,5 @@
 ~/.fehbg &
+dunst &
 picom &
 slstatus &
 flameshot &
