@@ -1,77 +1,20 @@
-# #!/bin/bash
-
-# SSH_AGENT="/usr/bin/ssh-agent"
-# SSH_ADD="/usr/bin/ssh-add"
-# GIT="/usr/bin/git"
-
-# # Start SSH agent and add SSH key
-# eval "$($SSH_AGENT -s)"
-# $SSH_ADD ~/.ssh/id_ed25519
-
-# # backup dwm setup
-# DWM_DIR="$HOME/.dwm-setup"
-# cd $DWM_DIR || exit
-# if [[ -n "$($GIT status -b --porcelain)" ]]; then
-#   git add .
-#   git commit -m "Automated update: $(date --rfc-3339 s)"
-#   git push -u origin main
-# fi
-
-# # backup dotfiles
-# DOTFILES_DIR="$HOME/.dotfiles"
-# cd $DOTFILES_DIR || exit
-# if [[ -n "$($GIT status -b --porcelain)" ]]; then
-#   git add .
-#   git commit -m "Automated update: $(date --rfc-3339 s)"
-#   git push -u origin main
-# fi
-
 #!/bin/bash
-
-SSH_AGENT="/usr/bin/ssh-agent"
-SSH_ADD="/usr/bin/ssh-add"
 GIT="/usr/bin/git"
-PING="/usr/bin/ping"
-
-# Check network connectivity
-if ! $PING -c 1 google.com &> /dev/null; then
-    echo "$(date --rfc-3339 s) - No internet access. Exiting backup." >> ~/backup_log.txt
-    exit 1
-fi
-
-# Start SSH agent and add SSH key
-eval "$($SSH_AGENT -s)"
-$SSH_ADD ~/.ssh/id_ed25519
 
 # backup dwm setup
 DWM_DIR="$HOME/.dwm-setup"
 cd $DWM_DIR || exit
-echo "DWM_DIR: $(pwd)" >> ~/backup_log.txt
 if [[ -n "$($GIT status -b --porcelain)" ]]; then
-  echo "Changes detected in DWM setup" >> ~/backup_log.txt
-  git add . >> ~/backup_log.txt 2>&1
-  git commit -m "Automated update: $(date --rfc-3339 s)" >> ~/backup_log.txt 2>&1
-  git push -u origin main >> ~/backup_log.txt 2>&1
+  git add .
+  git commit -m "Automated update: $(date --rfc-3339 s)"
+  git push
 fi
 
 # backup dotfiles
 DOTFILES_DIR="$HOME/.dotfiles"
 cd $DOTFILES_DIR || exit
-echo "DOTFILES_DIR: $(pwd)" >> ~/backup_log.txt
 if [[ -n "$($GIT status -b --porcelain)" ]]; then
-  echo "Changes detected in dotfiles" >> ~/backup_log.txt
-  git add . >> ~/backup_log.txt 2>&1
-  git commit -m "Automated update: $(date --rfc-3339 s)" >> ~/backup_log.txt 2>&1
-  git push -u origin main >> ~/backup_log.txt 2>&1
+  git add .
+  git commit -m "Automated update: $(date --rfc-3339 s)"
+  git push
 fi
-
-# Ping test
-echo "Ping Test: $(date --rfc-3339 s)" >> ~/backup_log.txt
-ping_result=$($PING -c 4 google.com)
-if [[ $? -eq 0 ]]; then
-  echo "$ping_result" >> ~/backup_log.txt
-else
-  echo "Ping failed" >> ~/backup_log.txt
-fi
-
-echo "Backup script finished." >> ~/backup_log.txt
