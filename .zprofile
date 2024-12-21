@@ -1,3 +1,6 @@
+#ALIASES
+alias c="xclip -selection clipboard"
+
 # EXPORTS
 ## EDITOR
 if [[ -z "$EDITOR" ]]; then
