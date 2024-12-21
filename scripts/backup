@@ -36,6 +36,12 @@ GIT="/usr/bin/git"
 eval "$($SSH_AGENT -s)"
 $SSH_ADD ~/.ssh/id_ed25519
 
+# Ping test
+PING_RESULT=$(ping -c 4 google.com)
+echo "Ping Test Result: $(date --rfc-3339 s)" >> ~/backup_log.txt
+echo "$PING_RESULT" >> ~/backup_log.txt
+
+echo "Backup script finished." >> ~/backup_log.txt
 # backup dwm setup
 DWM_DIR="$HOME/.dwm-setup"
 cd $DWM_DIR || exit
