@@ -6,7 +6,7 @@ cd $DWM_DIR || exit
 if [[ -n "$(git status --porcelain)" ]]; then
   git add .
   git commit -m "Automated update: $(date --rfc-3339 s)"
-  git push origin main
+  git push -u origin main
 fi
 
 # backup dotfiles
@@ -15,5 +15,5 @@ cd $DOTFILES_DIR || exit
 if [[ -n "$(git status --porcelain)" ]]; then
   git add .
   git commit -m "Automated update: $(date --rfc-3339 s)"
-  git push origin main
+  git push -u origin main
 fi
