@@ -1,1 +1,23 @@
+#FUNCTION
+create_dot() {
+  if [[ $# -ne 1 ]]; then
+    echo "Usage: cdot filename"
+    return
+  fi
+  name="$1"
+  touch ~/$name
+  ln ~/$name ~/.dotfiles/$name  
+}
+
+delete_dot() {
+  if [[ $# -ne 1 ]]; then
+    echo "Usage: ddot filename"
+    return
+  fi
+  name="$1"
+  rm ~/$name && rm ~/.dotfiles/$name
+}
+# ALIASES
 alias c="xclip -selection clipboard"
+alias cdot="create_dot"
+alias ddot="delete_dot"

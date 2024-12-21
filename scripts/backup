@@ -1,20 +1,25 @@
 #!/bin/bash
 GIT="/usr/bin/git"
 
-# backup dwm setup
-DWM_DIR="$HOME/.dwm-setup"
-cd $DWM_DIR || exit
-if [[ -n "$($GIT status -b --porcelain)" ]]; then
+# git push function
+git_push() {
   git add . 
   git commit -m "Automated update: $(date --rfc-3339 s)"
   git push
+}
+
+# backup dwm setup
+DWM_DIR="$HOME/.dwm-setup"
+cd $DWM_DIR || exit
+if [[ -n "$($GIT status --porcelain)" ]]; then
+  echo "Pushing '.dwm-setup' changes to remote. Please wait."
+  git_push >/dev/null 2>&1
 fi
 
 # backup dotfiles
 DOTFILES_DIR="$HOME/.dotfiles"
 cd $DOTFILES_DIR || exit
-if [[ -n "$($GIT status -b --porcelain)" ]]; then
-  git add . 
-  git commit -m "Automated update: $(date --rfc-3339 s)"
-  git push
+if [[ -n "$($GIT status --porcelain)" ]]; then
+  echo "Pushing '.dotfiles' changes to remote. Please wait."
+  git_push >/dev/null 2>&1
 fi
