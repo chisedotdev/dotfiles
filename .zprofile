@@ -17,5 +17,5 @@ fi
 ## BACKUP
 WIFI="iwgetid -r"
 if [[ -n "$WIFI" ]]; then
-  ~/.dotfiles/scripts/backup  
+  ~/.dotfiles/scripts/backup 1>/dev/null 
 fi
