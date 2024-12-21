@@ -31,17 +31,18 @@
 SSH_AGENT="/usr/bin/ssh-agent"
 SSH_ADD="/usr/bin/ssh-add"
 GIT="/usr/bin/git"
+PING="/usr/bin/ping"
+
+# Check network connectivity
+if ! $PING -c 1 google.com &> /dev/null; then
+    echo "$(date --rfc-3339 s) - No internet access. Exiting backup." >> ~/backup_log.txt
+    exit 1
+fi
 
 # Start SSH agent and add SSH key
 eval "$($SSH_AGENT -s)"
 $SSH_ADD ~/.ssh/id_ed25519
 
-# Ping test
-PING_RESULT=$(ping -c 4 google.com)
-echo "Ping Test Result: $(date --rfc-3339 s)" >> ~/backup_log.txt
-echo $PING_RESULT >> ~/backup_log.txt
-
-echo "Backup script finished." >> ~/backup_log.txt
 # backup dwm setup
 DWM_DIR="$HOME/.dwm-setup"
 cd $DWM_DIR || exit
@@ -62,6 +63,15 @@ if [[ -n "$($GIT status -b --porcelain)" ]]; then
   git add . >> ~/backup_log.txt 2>&1
   git commit -m "Automated update: $(date --rfc-3339 s)" >> ~/backup_log.txt 2>&1
   git push -u origin main >> ~/backup_log.txt 2>&1
+fi
+
+# Ping test
+echo "Ping Test: $(date --rfc-3339 s)" >> ~/backup_log.txt
+ping_result=$($PING -c 4 google.com)
+if [[ $? -eq 0 ]]; then
+  echo "$ping_result" >> ~/backup_log.txt
+else
+  echo "Ping failed" >> ~/backup_log.txt
 fi
 
 echo "Backup script finished." >> ~/backup_log.txt

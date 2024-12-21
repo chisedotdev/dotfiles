@@ -13,3 +13,9 @@ if [[ ":$PATH:" != *":$DMENU_SCRIPTS_PATH:"* ]]; then
   export PATH="$PATH:$DMENU_SCRIPTS_PATH"
 fi
 
+# RUN SCRIPT
+## BACKUP
+WIFI="iwgetid -r"
+if [[ -n "$WIFI" ]]; then
+  ~/.dotfiles/scripts/backup  
+fi
