@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# backup dwm setup
+DWM_DIR="$HOME/.dwm-setup"
+cd $DWM_DIR || exit
+if [ -n "$(git status --porcelain)" ]; then
+  git add .
+  git commit -m "Automated update: $(date --rfc-3339 s)"
+  git push
+fi
+
+# backup dotfiles
+
+DOTFILES_DIR="$HOME/.dotfiles"
+cd $DOTFILES_DIR || exit
+if [ -n "$(git status --porcelain)" ]; then
+  git add .
+  git commit -m "Automated update: $(date --rfc-3339 s)"
+  git push
+fi
