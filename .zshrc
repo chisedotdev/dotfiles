@@ -110,3 +110,6 @@ source $ZSH/oh-my-zsh.sh
 prompt_context() {
   prompt_segment black default "󰣇"
 }
+
+# source aliases
+source ~/.zsh_aliases
