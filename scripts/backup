@@ -1,25 +1,56 @@
-#/bin/bash
-GIT="/usr/bin/git"
+#!/bin/bash
+
+git="/usr/bin/git"
 
 # git push function
 git_push() {
-  git add . 
-  git commit -m "Automated update: $(date --rfc-3339 s)"
-  git push
+  $git add . 
+  $git commit -m "Automated update: $(date --rfc-3339 s)"
+  $git push
 }
 
+# check internet connection
+check_net() {
+  status=$(rfkill list all | grep -A 1 -i "wireless" | grep -i "soft blocked" | awk '{print $NF}')
+  if [[ $status == "yes" ]]; then
+    echo "WiFi is disabled. Aborting."
+    exit 1
+  fi
+  
+  station=$(iwctl station list | grep "connected" | awk '{print $2}')
+  network=$(iwctl station $station show | grep "Connected network" | awk '{print $3}')
+  if [[ ! -n $network ]]; then
+    echo "Not connected to WiFi. Aborting"
+    exit 1
+  fi
+
+  ping google.com -c1
+  if [[ $? -eq 1 ]]; then
+    echo "No internet connection. Aborting."
+    exit 1
+  fi
+
+  echo "Connected to $network."
+  }
+
+# execute check internet connection function
+check_net
+if [[ $? -eq 1 ]]; then
+  exit 1
+fi
+
 # backup dwm setup
-DWM_DIR="$HOME/.dwm-setup"
-cd $DWM_DIR || exit
-if [[ -n "$($GIT status --porcelain)" ]]; then
+dwm_dir="$HOME/.dwm-setup"
+cd $dwm_dir || exit
+if [[ -n "$($git status --porcelain)" ]]; then
   echo "Pushing '.dwm-setup' changes to remote. Please wait."
   git_push >/dev/null 2>&1
 fi
 
 # backup dotfiles
-DOTFILES_DIR="$HOME/.dotfiles"
-cd $DOTFILES_DIR || exit
-if [[ -n "$($GIT status --porcelain)" ]]; then
+dotfiles_dir="$HOME/.dotfiles"
+cd $dotfiles_dir || exit
+if [[ -n "$($git status --porcelain)" ]]; then
   echo "Pushing '.dotfiles' changes to remote. Please wait."
   git_push >/dev/null 2>&1
-fi
+  fi
