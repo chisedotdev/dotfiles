@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 GIT="/usr/bin/git"
 
 # git push function
