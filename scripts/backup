@@ -10,34 +10,34 @@ git_push() {
 }
 
 # check internet connection
-check_net() {
-  status=$(rfkill list all | grep -A 1 -i "wireless" | grep -i "soft blocked" | awk '{print $NF}')
-  if [[ $status == "yes" ]]; then
-    echo "WiFi is disabled. Aborting."
-    exit 1
-  fi
+# check_net() {
+#   status=$(rfkill list all | grep -A 1 -i "wireless" | grep -i "soft blocked" | awk '{print $NF}')
+#   if [[ $status == "yes" ]]; then
+#     echo "WiFi is disabled. Aborting."
+#     exit 1
+#   fi
   
-  station=$(iwctl station list | grep "connected" | awk '{print $2}')
-  network=$(iwctl station $station show | grep "Connected network" | awk '{print $3}')
-  if [[ ! -n $network ]]; then
-    echo "Not connected to WiFi. Aborting"
-    exit 1
-  fi
+#   station=$(iwctl station list | grep "connected" | awk '{print $2}')
+#   network=$(iwctl station $station show | grep "Connected network" | awk '{print $3}')
+#   if [[ ! -n $network ]]; then
+#     echo "Not connected to WiFi. Aborting"
+#     exit 1
+#   fi
 
-  ping google.com -c1 >/dev/null 2>&1
-  if [[ $? -eq 1 ]]; then
-    echo "No internet connection. Aborting."
-    exit 1
-  fi
+#   ping google.com -c1 >/dev/null 2>&1
+#   if [[ $? -eq 1 ]]; then
+#     echo "No internet connection. Aborting."
+#     exit 1
+#   fi
 
-  echo "Connected to $network."
-  }
+#   echo "Connected to $network."
+#   }
 
-# execute check internet connection function
-check_net
-if [[ $? -eq 1 ]]; then
-  exit 1
-fi
+# # execute check internet connection function
+# check_net
+# if [[ $? -eq 1 ]]; then
+#   exit 1
+# fi
 
 # backup dwm setup
 dwm_dir="$HOME/.dwm-setup"
