@@ -53,4 +53,4 @@ cd $dotfiles_dir || exit
 if [[ -n "$($git status --porcelain)" ]]; then
   echo "Pushing '.dotfiles' changes to remote. Please wait."
   git_push >/dev/null 2>&1
-  fi
+fi
