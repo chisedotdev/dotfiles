@@ -9,3 +9,9 @@ DMENU_SCRIPTS_PATH="$HOME/.dwm-setup/dmenu/scripts"
 if [[ ":$PATH:" != *":$DMENU_SCRIPTS_PATH:"* ]]; then
   export PATH="$PATH:$DMENU_SCRIPTS_PATH"
 fi
+
+## CUSTOM SCRIPTS PATH
+SCRIPTS_PATH="$HOME/.scripts"
+if [[ ":$PATH:" != *":$SCRIPTS_PATH:"* ]]; then
+  export PATH="$PATH:$SCRIPTS_PATH"
+fi
