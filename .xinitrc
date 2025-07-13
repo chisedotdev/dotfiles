@@ -1,3 +1,4 @@
+#!/bin/sh
 ~/.fehbg &
 dunst &
 picom &
