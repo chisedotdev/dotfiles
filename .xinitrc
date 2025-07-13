@@ -1,7 +1,7 @@
 #!/bin/sh
 ~/.fehbg &
 dunst &
-picom &
+#picom &
 slstatus &
 flameshot &
 exec dwm
