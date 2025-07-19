@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+# Source env variables
+if [[ -f "$HOME/.zsh_exports" ]]; then
+  source "$HOME/.zsh_exports"
+fi
+
+xset -dpms
+xset s off
+xset s noblank
+
+~/.fehbg &
+dunst &
+slstatus &
+flameshot &
+exec dwm
