@@ -21,4 +21,4 @@ delete_dot() {
 alias c="xclip -selection clipboard"
 alias cdot="create_dot"
 alias ddot="delete_dot"
-alias fire="sudo firewall-cmd"
+alias ufw="sudo ufw"
